@@ -1,14 +1,20 @@
 FROM haskell:8.6.5 as dependencies
-COPY . /opt/build
+RUN mkdir /opt/build
+COPY ./stack.yaml ./hs-music.cabal /opt/build/
 WORKDIR /opt/build
 RUN stack build --system-ghc --dependencies-only
+COPY ./ /opt/build
+RUN ls -laF /opt/build
+RUN stack install --system-ghc --ghc-options -static
 
-FROM haskell:8.6.5 as build
-COPY --from=dependencies /root/.stack /root/.stack
-COPY /opt/build /opt/build
-WORKDIR /opt/build
-RUN stack build --system-ghc
-
-
-# COPY --from=build /opt/build/.stack-work /usr/local/bin/hs-music
-# ENTRYPOINT "/usr/local/bin/hs-music"
+FROM debian:8
+RUN apt-get update && \
+    apt-get install -y libgmp-dev
+COPY --from=dependencies /root/.local/bin/hs-music /usr/local/bin/hs-music
+RUN useradd -M music && \
+    mkdir /music && \
+    chown -R music:music /music
+USER music
+WORKDIR /music
+VOLUME /music
+ENTRYPOINT "/usr/local/bin/hs-music"
