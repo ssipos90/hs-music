@@ -4,8 +4,9 @@
 Clone this repo, cd into it, use stack with LTS-14.14 resolver and run `stack build` and maybe `stack install` to copy the bin in your path dir.
 
 ### How to use
-You need to define a file named "playlists.txt" with each line containing a
-JSON object with the `name` of the folder that should be created on the disk and `url` to the youtube playlist as properties.
+You need to create a file named "playlists.txt" in your music directory with 
+each line containing a JSON object with the `name` of the folder that should 
+be created on the disk and `url` to the youtube playlist as properties.
 
 You could run it manually but I assume setting up some crontab could save you
 some time :)
