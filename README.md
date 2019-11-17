@@ -13,7 +13,7 @@ some time :)
 As of now, this is just to learn some Haskell, however there are some plans to
 add some stuff
 
-###TODOs:
+### TODOs:
 
 - [ ] switch to YAML
 - [ ] allow configurations through env vars
