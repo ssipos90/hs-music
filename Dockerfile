@@ -11,10 +11,13 @@ FROM debian:8
 RUN apt-get update && \
     apt-get install -y libgmp-dev
 COPY --from=dependencies /root/.local/bin/hs-music /usr/local/bin/hs-music
+COPY entrypoint.sh /usr/local/bin/entrypoint
 RUN useradd -M music && \
     mkdir /music && \
-    chown -R music:music /music
+    chown -R music:music /music && \
+    chmod +x /usr/local/bin/entrypoint
 USER music
 WORKDIR /music
 VOLUME /music
-ENTRYPOINT "/usr/local/bin/hs-music"
+ENTRYPOINT "/usr/local/bin/entrypoint"
+
