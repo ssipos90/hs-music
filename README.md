@@ -5,8 +5,15 @@ Clone this repo, cd into it, use stack with LTS-14.14 resolver and run `stack bu
 
 ### How to use
 You need to create a file named "playlists.txt" in your music directory with 
-each line containing a JSON object with the `name` of the folder that should 
-be created on the disk and `url` to the youtube playlist as properties.
+a list of playlists in the following format:
+```yaml
+- name: techno
+  url: https://www.youtube.com/playlist?list=PLMmqTuUsDkRJR0fglM0pBwNN5EUVGs4Y-
+- name: pop
+  url: https://www.youtube.com/playlist?list=PLMC9KNkIncKtPzgY-5rmhvj7fax8fdxoj
+- name: rominimal
+  url: https://www.youtube.com/playlist?list=PL1pZmgI6eOAI9DI8B6jDYPQ6rQHPHzICIu
+```
 
 You could run it manually but I assume setting up some crontab could save you
 some time :)
