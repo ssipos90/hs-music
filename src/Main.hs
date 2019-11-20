@@ -102,5 +102,3 @@ createCommand dir playlistURL =
                                               , std_err = UseHandle stderr
                                               , cwd     = Just dir
                                               }
-
-
