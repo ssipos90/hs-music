@@ -4,7 +4,7 @@
 Clone this repo, cd into it, use stack with LTS-14.14 resolver and run `stack build` and maybe `stack install` to copy the bin in your path dir.
 
 ### How to use
-You need to create a file named "playlists.txt" in your music directory with 
+You need to create a file named "playlists.yaml" in your music directory with 
 a list of playlists in the following format:
 ```yaml
 - name: techno
