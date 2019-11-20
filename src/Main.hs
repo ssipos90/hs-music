@@ -96,6 +96,7 @@ createCommand dir playlistURL =
           , ".archive"
           , "-f"
           , "best"
+          , "-x"
           , T.pack $ exportURL playlistURL
           ]
   in  (proc "youtube-dl" (map T.unpack args)) { std_out = UseHandle stdout
