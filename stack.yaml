@@ -4,4 +4,4 @@ packages:
 allow-newer: true
 extra-deps:
 - HsYAML-0.2.1.0
-resolver: lts-14.14
+resolver: lts-14.15
