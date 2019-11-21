@@ -1,7 +1,8 @@
 {-# LANGUAGE RecordWildCards #-}
 
-module Lib
-  ( decodeYAML
+module HsMusic
+  ( Playlist(..)
+  , decodeYAML
   , syncPlaylists
   )
 where
@@ -52,7 +53,7 @@ import           Network.URL                    ( URL
 
 data Playlist = Playlist { playlistName :: Text
                          , playlistURL :: URL
-                         } deriving (Show)
+                         } deriving (Show, Eq)
 
 instance FromYAML URL where
   parseYAML = withStr "String" $ \s -> case importURL $ T.unpack s of

@@ -1,7 +1,7 @@
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
 import System.Directory (getCurrentDirectory)
-import Lib
+import HsMusic
 import           Protolude               hiding ( readFile )
 import           Data.ByteString.Lazy.Char8     ( readFile )
 
