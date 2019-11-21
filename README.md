@@ -24,7 +24,7 @@ add some stuff
 ### TODOs:
 - [x] Dockerize
 - [x] switch to YAML
-- -[ ] allow configurations through env vars- superseeded by:
+- ~~allow configurations through env vars~~ superseeded by:
 - [ ] upgrade YAML to allow various configurations
 - [ ] allow some CLI arguments
 - [ ] add notifications so you know when stuff happens (probabbly email or some push notifications)
