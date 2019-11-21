@@ -13,12 +13,16 @@ makeUrl :: [Char] -> URL
 makeUrl domain = URL (Absolute (Host (HTTP True) domain Nothing)) "" []
 
 main :: IO ()
-main = hspec $ describe "Decode YAML as expected" $ do
-  it "Decodes and empty string to an empty array" $ do
-    let expected = Right []
-    decodeYAML "" `shouldBe` expected
-  it "Decodes one item properly" $ do
-    let playlistURL  = makeUrl "google.com"
-    let playlistName = "minimal"
-    let expected     = Right [[Playlist { .. }]]
-    shouldBe (decodeYAML "- name: minimal\n  url: https://google.com") expected
+main = hspec $
+  describe "Decode YAML as expected" $ do
+    it "decodes and empty string to an empty array" $ do
+      let expected = Right []
+      decodeYAML "" `shouldBe` expected
+    it "fails if YAML does not respect schema" $
+      -- we can safely ignore the error because it's YAML specific
+      isLeft (decodeYAML "- name: minimal\n  some-field: ceva") `shouldBe` True 
+    it "decodes one item properly" $ do
+      let playlistURL  = makeUrl "google.com"
+      let playlistName = "minimal"
+      let expected     = Right [[Playlist { .. }]]
+      shouldBe (decodeYAML "- name: minimal\n  url: https://google.com") expected
