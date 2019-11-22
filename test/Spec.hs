@@ -20,7 +20,7 @@ main = hspec $
       decodeYAML "" `shouldBe` expected
     it "fails if YAML does not respect schema" $
       -- we can safely ignore the error because it's YAML specific
-      isLeft (decodeYAML "- name: minimal\n  some-field: ceva") `shouldBe` True 
+      isLeft (decodeYAML "- name: minimal\n  some-field: some value") `shouldBe` True 
     it "decodes one item properly" $ do
       let playlistURL  = makeUrl "google.com"
       let playlistName = "minimal"
