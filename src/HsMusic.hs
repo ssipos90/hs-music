@@ -1,14 +1,18 @@
 {-# LANGUAGE RecordWildCards #-}
 
-module Main where
+module HsMusic
+  ( Playlist(..)
+  , decodeYAML
+  , syncPlaylists
+  )
+where
 
 import           Protolude               hiding ( readFile )
 import           Control.Monad                  ( fail )
 import           System.IO                      ( stdout
                                                 , stderr
                                                 )
-import           System.Directory               ( getCurrentDirectory
-                                                , createDirectoryIfMissing
+import           System.Directory               ( createDirectoryIfMissing
                                                 )
 import           System.Environment             ( getArgs )
 import           System.Exit                    ( exitWith
@@ -26,6 +30,7 @@ import           System.Process                 ( CreateProcess
 import           Data.ByteString.Lazy.Char8     ( readFile
                                                 , lines
                                                 )
+import qualified Data.ByteString.Lazy          as BSL
 import           Data.YAML                      ( Pos
                                                 , FromYAML
                                                 , ToYAML
@@ -48,7 +53,7 @@ import           Network.URL                    ( URL
 
 data Playlist = Playlist { playlistName :: Text
                          , playlistURL :: URL
-                         } deriving (Show)
+                         } deriving (Show, Eq)
 
 instance FromYAML URL where
   parseYAML = withStr "String" $ \s -> case importURL $ T.unpack s of
@@ -65,15 +70,8 @@ instance ToYAML Playlist where
   toYAML Playlist {..} =
     mapping ["name" .= playlistName, "url" .= T.pack (exportURL playlistURL)]
 
-main :: IO ()
-main = do
-  let fp = "playlists.yaml"
-  content <- readFile fp
-  case decode content :: Either (Pos, [Char]) [[Playlist]] of
-    Left (p, error) -> TIO.putStrLn $ T.pack error
-    Right (pls:_) -> do
-      cwd <- getCurrentDirectory
-      syncPlaylists pls cwd
+decodeYAML :: BSL.ByteString -> Either (Pos, [Char]) [[Playlist]]
+decodeYAML = decode
 
 syncPlaylists :: [Playlist] -> FilePath -> IO ()
 syncPlaylists pls dir = do

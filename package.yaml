@@ -1,0 +1,47 @@
+name:                hs-music
+version:             0.1.0.0
+github:              "ssipos90/hs-music"
+license:             BSD3
+author:              "Sebastian Sipos"
+maintainer:          "sebastiansipos90@gmail.com"
+copyright:           "MIT"
+extra-source-files:  README.md
+description:         Please see the README on GitHub at <https://github.com/ssipos90/hs-music#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- HsYAML
+- bytestring
+- directory
+- text
+- process
+- protolude
+- url
+- hspec
+
+library:
+  source-dirs: src
+
+default-extensions:  NoImplicitPrelude
+                  , OverloadedStrings
+executables:
+  hs-music-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - hs-music
+
+tests:
+  hs-music-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - hs-music
