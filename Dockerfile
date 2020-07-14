@@ -1,20 +1,24 @@
-FROM haskell:8.6.5 as dependencies
-RUN mkdir /opt/build
-COPY ./stack.yaml ./hs-music.cabal /opt/build/
+FROM fpco/stack-build:lts-14.27 as build
 WORKDIR /opt/build
+COPY ./stack.yaml ./package.yaml ./
 RUN stack build --system-ghc --dependencies-only
-COPY ./ /opt/build
-RUN ls -laF /opt/build
-RUN stack install --system-ghc --ghc-options -static
 
-FROM debian:8
-RUN apt-get update && \
-    apt-get install -y libgmp-dev
-COPY --from=dependencies /root/.local/bin/hs-music /usr/local/bin/hs-music
-RUN useradd -M music && \
-    mkdir /music && \
-    chown -R music:music /music
-USER music
-WORKDIR /music
-VOLUME /music
-ENTRYPOINT "/usr/local/bin/hs-music"
+COPY . ./
+
+RUN set -eu; \
+    mkdir /opt/build/bin; \
+    stack build \
+      --system-ghc \
+      --ghc-options="-fPIC" \
+      --ghc-options="-O2" \
+      --copy-bins \
+      --local-bin-path=/usr/local/bin
+
+FROM ubuntu:18.04
+
+RUN apt-get update && apt-get install libgmp10
+WORKDIR /app
+
+COPY --from=build /usr/local/bin ./
+
+CMD ["/app/hs-music-exe"]

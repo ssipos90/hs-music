@@ -22,7 +22,7 @@ dependencies:
 library:
   source-dirs: src
 
-default-extensions:  NoImplicitPrelude
+default-extensions: NoImplicitPrelude
                   , OverloadedStrings
 executables:
   hs-music-exe:
